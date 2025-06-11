@@ -146,7 +146,7 @@ export const forgotPassword = async (req, res) => {
     await sendResetPasswordEmail(user.email, user.name, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
 
     console.log("Generated reset token:", resetToken);
-    res.status(200).json({ success: false, message: "Password reset link sent to your email." });
+    res.status(200).json({ success: true, message: "Password reset link sent to your email." });
 
   } catch (error) {
     console.log("Error in forgotPassword controller: ", error);
