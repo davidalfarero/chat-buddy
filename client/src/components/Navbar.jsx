@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LogOut, Settings, User } from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from "../store/useAuthStore";
 import { useState } from 'react';
@@ -43,9 +43,9 @@ const Navbar = () => {
           <ChevronDown size={20} />
         </label>
         <ul tabIndex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-30 md:w-40">
-          <li><Link to="/settings">Settings</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
-          <li><a onClick={handleLogout} class="text-red-500">Logout</a></li>
+          <li><Link to="/settings"><Settings size={15} />Settings</Link></li>
+          <li><Link to="/profile"><User size={15} />Profile</Link></li>
+          <li><a onClick={handleLogout} class="text-red-500"><LogOut size={15} />Logout</a></li>
         </ul>
       </div>
 
