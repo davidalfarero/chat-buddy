@@ -1,12 +1,13 @@
+import { X } from 'lucide-react';
 import { useState } from 'react';
 import { THEMES } from '../lib/themes';
 import { useChatStore } from "../store/useChatStore";
 import { useThemeStore } from "../store/useThemeStore"; // adjust path as needed
-import { X } from 'lucide-react';
 
 const InfoSidebar = ({ onClose }) => {
-  const [showInfo, setShowInfo] = useState('theme');
-  const { selectedUser } = useChatStore();
+  const [showTheme, setShowTheme] = useState(false);
+  const [showMedia, setShowMedia] = useState(false);
+  const { selectedUser, messages } = useChatStore();
   const { theme: currentTheme, setTheme } = useThemeStore();
 
   const toggleInfo = (tab) => {
@@ -22,7 +23,7 @@ const InfoSidebar = ({ onClose }) => {
         <X />
       </button>
 
-      <div className="flex flex-col items-center justify-center mt-15 md:mt-0 mb-5">
+      <div className="flex flex-col items-center justify-center mt-15 md:mt-0">
         <div className="avatar">
           <div className="rounded-full size-15 md:size-25" >
             <img src={selectedUser.profilePic || "/avatar.png"} />
@@ -33,58 +34,86 @@ const InfoSidebar = ({ onClose }) => {
         <p className="text-sm text-base-content/50" >{selectedUser.email}</p>
       </div>
 
-      <hr className="border-base-300 mb-5" />
+      <hr className="border-base-300 my-5" />
 
-      <div className="flex items-center gap-4">
-        <div
-          onClick={() => toggleInfo('theme')}
-          className="mb-5"
+      <div>
+        <button
+          className='w-full flex items-center justify-between mb-4 cursor-pointer'
+          onClick={() => setShowTheme(prev => !prev)}
         >
-          <span className={`text-base font-semibold select-none ${showInfo === 'theme' ? 'border-b-4 border-accent' : ''}`}>Theme</span>
-        </div>
+          <p className={`font-semibold ${showTheme && 'underline decoration-accent decoration-4'}`}>Themes</p>
+          {showTheme ? <p className='text-[10px] text-base-content/80'>Hide</p> : <p className='text-[10px] text-base-content/80'>Show</p>}
+        </button>
 
-        <div
-          onClick={() => toggleInfo('media')}
-          className="mb-5"
-        >
-          <span className={`text-base font-semibold select-none ${showInfo === 'media' ? 'border-b-4 border-accent' : ''}`}>Media</span>
-        </div>
+        {showTheme && (
+          <div>
+            <div className="max-w-[80%] mx-auto grid grid-cols-5 gap-2">
+              {THEMES.slice(0, 15).map(({ theme, color }) => (
+                <button
+                  key={theme}
+                  className={`w-4 h-4 md:w-6 md:h-6 rounded-full ring-2 transition-all duration-300 cursor-pointer`}
+                  style={{
+                    backgroundColor: color,
+                    boxShadow: currentTheme === theme ? `0 0 0 2px #000` : "",
+                  }}
+                  onClick={() => {
+                    setTheme(theme);
+                    document.documentElement.setAttribute("data-theme", theme);
+                  }}
+                />
+              ))}
+            </div>
+            <p className="text-sm text-base-content/70 mt-2 text-center">
+              <a href="/settings" className="link link-hover">
+                View all themes
+              </a>
+            </p>
+          </div>
+        )}
 
       </div>
 
-      {showInfo === 'theme' &&
-        <div>
-          <div className="max-w-[80%] mx-auto grid grid-cols-5 gap-2">
-            {THEMES.slice(0, 15).map(({ theme, color }) => (
-              <button
-                key={theme}
-                className={`w-4 h-4 md:w-6 md:h-6 rounded-full ring-2 transition-all duration-300 cursor-pointer`}
-                style={{
-                  backgroundColor: color,
-                  boxShadow: currentTheme === theme ? `0 0 0 2px #000` : "",
-                }}
-                onClick={() => {
-                  setTheme(theme);
-                  document.documentElement.setAttribute("data-theme", theme);
-                }}
-              />
-            ))}
+
+      <hr className="border-base-300 my-5" />
+
+      <div>
+        <button
+          className='w-full flex items-center justify-between mb-4'
+          onClick={() => setShowMedia(prev => !prev)}
+        >
+          <p className={`font-semibold ${showMedia && 'underline decoration-accent decoration-4'}`}>Shared Photos</p>
+          {showMedia ? (
+            <p className='text-[10px] text-base-content/80'>Hide</p>
+          ) : (<p className='text-[10px] text-base-content/80'>Show</p>
+          )}
+        </button>
+
+        {showMedia && (
+          <div className='max-h-72 overflow-y-auto pr-1'>
+            {messages.some(message => message.image) ? (
+              <div className='grid grid-cols-3 gap-2'>
+                {messages
+                  .filter(message => message.image)
+                  .map((message, index) => (
+                    <img
+                      key={index}
+                      src={message.image}
+                      alt={`Shared media ${index}`}
+                      className='rounded-xl w-full h-15 md:h-32 object-cover'
+                    />
+                  ))}
+              </div>
+            ) : (
+              <p className="text-sm text-center text-base-content/50 mt-4">
+                No shared photos yet.
+              </p>
+            )}
           </div>
+        )}
 
-          <p className="text-sm text-base-content/70 mt-2 text-center">
-            <a href="/settings" className="link link-hover">
-              View all themes
-            </a>
-          </p>
-        </div>
-      }
+      </div>
 
 
-      {showInfo === 'media' && (
-        <div className="text-center text-sm text-base-content/70 mt-5">
-          {/* todo: media content here */}
-        </div>
-      )}
     </div>
   );
 };
