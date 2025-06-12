@@ -34,7 +34,7 @@ const SignupPage = () => {
   }, [error, setError]);
 
   return (
-    <div className='h-screen grid lg:grid-cols-2 place-items-center max-w-7xl mx-auto pt-20 px-6 gap-6' >
+    <div className='h-screen grid lg:grid-cols-2 place-items-center max-w-7xl mx-auto gap-6' >
       <div className='space-y-6 self-center'>
         <h1 className='text-primary text-center md:text-start text-3xl md:text-8xl font-bold'>
           Stay connected in real time, anytime.
@@ -76,7 +76,7 @@ const SignupPage = () => {
             />
 
             <div className='h-6 mb-4'>
-              {error && <p className='text-error font-semibold'>{error}</p>}
+              {error && <p className='text-red-500 font-semibold'>{error}</p>}
             </div>
 
             <Button
@@ -93,8 +93,8 @@ const SignupPage = () => {
         <div className="text-center">
           <p className="text-base-content/60">
             Already have an account?{" "}
-            <Link to="/login" className="link link-primary">
-              Sign in
+            <Link to="/login" className="text-sm text-primary font-bold hover:underline decoration-2">
+              Log in
             </Link>
           </p>
         </div>

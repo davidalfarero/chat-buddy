@@ -112,6 +112,22 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
+  resetPassword: async (token, password) => {
+    try {
+      set({ isLoading: true, error: null });
+
+      const response = await axiosInstance.post(`/auth/reset-password/${token}`, { password });
+      set({ message: response.data.message, isLoading: false });
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response.data.message || "Error resetting password",
+      });
+      throw error;
+    }
+
+  },
+
   connectSocket: () => {
     const { user } = get();
     if (!user || get().socket?.connected) return;

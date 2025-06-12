@@ -48,8 +48,7 @@ export const Button = ({ ...props }) => {
   return (
     <motion.button
       {...props}
-      className='w-full text-primary-content py-3 px-4 bg-primary font-bold rounded-lg shadow-lg'
-      whileHover={{ scale: 1.02 }}
+      className='w-full text-primary-content py-3 px-4 bg-primary font-bold rounded-lg shadow-lg cursor-pointer'
       whileTap={{ scale: 0.98 }}
     >
     </motion.button>
