@@ -9,11 +9,13 @@ export const useAuthStore = create((set, get) => ({
   isLoading: false,
   isAuthenticated: false,
   isCheckingAuth: true,
+  isUpdatingProfile: false,
   message: null,
   setMessage: (message) => set({ message }),
   onlineUsers: [],
   error: null,
   setError: (error) => set({ error }),
+  isUpdatingProfile: false,
   socket: null,
 
   checkAuth: async () => {
@@ -94,6 +96,22 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       set({ error: "Error logging out", isLoading: false });
       throw error;
+    }
+  },
+
+  updateProfile: async (data) => {
+    try {
+      set({ isUpdatingProfile: true });
+      const res = await axiosInstance.put("/auth/update-profile", data);
+      set({
+        user: res.data,
+        message: res.data.message || 'Photo changed successfully!',
+      });
+    } catch (error) {
+      console.log("error in update profile:", error);
+      set({ error });
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
 

@@ -6,20 +6,28 @@ export function formatMessageTime(date) {
   });
 }
 
-export function formatDate(date) {
+export function formatMemberDate(date) {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+export function formatLoginDate(date) {
   const d = new Date(date);
 
-  const formattedDate = d.toLocaleDateString("en-US", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-  });
-
   const time = d.toLocaleTimeString("en-US", {
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
     hour12: true,
   });
 
-  return `${time}, ${formattedDate}`;
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+
+  return `${time}, ${year}-${month}-${day}`;
 }
+

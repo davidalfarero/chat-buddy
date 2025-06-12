@@ -3,6 +3,7 @@ import { sendResetPasswordEmail, sendResetSuccessEmail, sendVerificationEmail, s
 import User from '../models/userModel.js';
 import { tokenService } from '../utils/tokenService.js';
 import crypto from 'crypto';
+import cloudinary from '../lib/cloudinary.js';
 
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -94,6 +95,10 @@ export const login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
+    if (!user || !password) {
+      return res.status(400).json({ success: false, message: "All fields are required." });
+    }
+
     if (!user) {
       return res.status(400).json({ success: false, message: "Username or Password is incorrect." });
     }
@@ -181,6 +186,29 @@ export const resetPassword = async (req, res) => {
   } catch (error) {
     console.log("Error in resetPassword", error);
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    const userId = req.user._id;
+
+    if (!profilePic) {
+      return res.status(400).json({ message: "Profile photo is required" });
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profilePic: uploadResponse.secure_url },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log("error in update profile:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
