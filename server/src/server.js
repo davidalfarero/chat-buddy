@@ -3,9 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import connectDB from './lib/connectDB.js';
+import { app, server } from './lib/socket.js';
 import authRoutes from './routes/authRoute.js';
 import messageRoutes from './routes/messageRoute.js';
-import { app, server } from './lib/socket.js';
 
 dotenv.config();
 const PORT = process.env.PORT || "http://localhost:5001";

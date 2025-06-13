@@ -91,7 +91,7 @@ const ChatContainer = () => {
 
               </div>
 
-              <div className={`chat-header mb-1 ${message.senderId === user._id ? 'mr-7 md:mr-10' : 'ml-7 md:ml-10'}`}>
+              <div className='chat-header mb-1'>
                 <time className='text-[10px] opacity-50 ml-1'>
                   {formatMessageTime(message.createdAt)}
                 </time>

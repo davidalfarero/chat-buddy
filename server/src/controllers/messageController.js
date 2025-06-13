@@ -2,13 +2,37 @@ import User from "../models/userModel.js";
 import Message from "../models/messageModel.js";
 import cloudinary from '../lib/cloudinary.js';
 import { getReceiverSocketId, io } from "../lib/socket.js";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime.js";
+
+dayjs.extend(relativeTime);
 
 export const getUsers = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
-    const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
 
-    res.status(200).json(filteredUsers);
+    const users = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+
+    const usersWithMessages = await Promise.all(
+      users.map(async (user) => {
+        const latest = await Message.findOne({
+          $or: [
+            { senderId: loggedInUserId, receiverId: user._id },
+            { senderId: user._id, receiverId: loggedInUserId },
+          ],
+        })
+          .sort({ createdAt: -1 })
+          .limit(1);
+
+        return {
+          ...user.toObject(),
+          latestMessage: latest ? latest.text : null,
+          latestMessageTime: latest ? dayjs(latest.createdAt).fromNow() : null,
+        };
+      })
+    );
+
+    res.status(200).json(usersWithMessages);
   } catch (error) {
     console.error("Error in getUsers controller", error.message);
     res.status(500).json({ error: "Internal server error", message: error.message });

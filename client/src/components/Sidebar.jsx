@@ -5,13 +5,18 @@ import { useChatStore } from "../store/useChatStore";
 import SidebarSkeleton from "./SidebarSkeleton";
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+  const {
+    getUsers,
+    users,
+    selectedUser,
+    setSelectedUser,
+    isUsersLoading,
+  } = useChatStore();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const scrollRef = useRef();
   const { onlineUsers } = useAuthStore();
-  const { messages } = useChatStore();
-
 
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -62,7 +67,9 @@ const Sidebar = () => {
             onClick={() => setSelectedUser(user)}
             className={`w-full p-3 flex items-center justify-between gap-3 rounded-lg hover:bg-base-300 transition-colors 
               border-b border-base-300 lg:border-none
-              ${selectedUser?._id === user._id ? "bg-accent/30 border-r-5 border-accent ring-1 ring-base-100" : ""
+              ${selectedUser?._id === user._id ?
+                "bg-accent/30 border-r-5 border-accent ring-1 ring-base-100 font-normal" :
+                "font-bold"
               }`}
           >
             <div className="relative mx-auto lg:mx-0">
@@ -77,10 +84,19 @@ const Sidebar = () => {
             </div>
 
             <div className="hidden md:block flex-1 text-left min-w-0">
-              <p className="font-medium truncate">{user.name}</p>
-              <div className="text-sm text-zinc-400">
-                {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+              <div className='flex items-center justify-between'>
+                <p className="font-medium truncate">{user.name}</p>
+                {user.latestMessageTime && (
+                  <span className="text-xs text-base-content/50 whitespace-nowrap">
+                    {user.latestMessageTime}
+                  </span>
+                )}
               </div>
+
+              <p className="text-sm text-base-content/50 truncate">
+                {user.latestMessage || "No messages yet"}
+              </p>
+
             </div>
           </button>
         ))}
