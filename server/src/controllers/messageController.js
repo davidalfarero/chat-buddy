@@ -11,7 +11,9 @@ export const getUsers = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
 
-    const users = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+    const users = await User.find({ _id: { $ne: loggedInUserId } })
+      .select("-password")
+      .sort({ createdAt: -1 });
 
     const usersWithMessages = await Promise.all(
       users.map(async (user) => {

@@ -9,7 +9,7 @@ const VerifyEmailPage = () => {
   const inputRefs = useRef([]);
   const navigate = useNavigate();
 
-  const { error, setError, isLoading, verifyEmail } = useAuthStore();
+  const { user, error, setError, isLoading, verifyEmail } = useAuthStore();
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -46,6 +46,12 @@ const VerifyEmailPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const verificationCode = code.join("");
+
+    if (verificationCode.length !== 6 || code.some(d => !d)) {
+      setError("Please enter the full 6-digit code.");
+      return;
+    }
+
     try {
       await verifyEmail(verificationCode);
       navigate("/");
@@ -56,10 +62,11 @@ const VerifyEmailPage = () => {
 
   // Auto submit when all fields are filled
   useEffect(() => {
-    if (code.every((digit) => digit !== "")) {
+    if (code.every((digit) => digit.length === 1)) {
       handleSubmit(new Event("submit"));
     }
   }, [code]);
+
 
   useEffect(() => {
     if (error) {
@@ -74,11 +81,12 @@ const VerifyEmailPage = () => {
     <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="max-w-md mx-auto bg-base-300 bg-opacity-40 backdrop-blur-md border border-base-100/20 rounded-2xl p-6 shadow-lg">
         <h1 className="text-accent text-center text-3xl font-bold">Verify Your Email</h1>
-        <p className="text-primary-content/70 text-center text-md mb-4">
-          Enter the 6-digit code sent to your email address:
+        <p className="text-base-content/70 text-center text-md mb-4">
+          Enter the 6-digit code sent to your email {" "}
+          <span className="font-bold">{user.email}:</span>
         </p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='flex justify-between'>
             {code.map((digit, index) => (
               <input
@@ -89,7 +97,7 @@ const VerifyEmailPage = () => {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className='w-12 h-12 text-center text-2xl font-bold bg-base-100 text-primary-content border-2 border-gray-600 rounded-lg focus:border-accent focus:outline-none mb-4'
+                className='w-12 h-12 text-center text-2xl font-bold bg-base-100 text-base-content border-2 border-gray-600 rounded-lg focus:border-accent focus:outline-none mb-4'
               />
             ))}
           </div>

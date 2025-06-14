@@ -4,7 +4,6 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useState } from 'react';
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = useState(false);
   const { logout, user } = useAuthStore();
   const navigate = useNavigate();
 
@@ -39,7 +38,7 @@ const Navbar = () => {
               <img src={user.profilePic || "/avatar.png"} alt="User Avatar" />
             </div>
           </div>
-          <span className="text-sm font-bold">David</span>
+          <span className="text-sm font-bold">{user.name.split(" ")[0]}</span>
           <ChevronDown size={20} />
         </label>
         <ul tabIndex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-30 md:w-40">

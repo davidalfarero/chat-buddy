@@ -59,7 +59,10 @@ export const useAuthStore = create((set, get) => ({
       set({ user: res.data.user, isAuthenticated: true, isLoading: false });
       return res.data;
     } catch (error) {
-      set({ error: error.res.data.message || "Error verifying email", isLoading: false });
+      set({
+        error: error.response?.data?.message || "Error verifying email",
+        isLoading: false
+      });
       throw error;
     }
   },

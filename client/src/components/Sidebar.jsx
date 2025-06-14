@@ -94,7 +94,7 @@ const Sidebar = () => {
               </div>
 
               <p className="text-sm text-base-content/50 truncate">
-                {user.latestMessage || "No messages yet"}
+                {user.latestMessage || ""}
               </p>
 
             </div>
