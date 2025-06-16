@@ -26,7 +26,6 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    // 👇 This line prevents the crash you're seeing
     return callback(new Error("CORS origin not allowed"));
   },
   credentials: true,
@@ -41,12 +40,14 @@ app.use("/api/messages", messageRoutes);
 
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
+  const clientDist = path.join(__dirname, "../client/dist");
+  app.use(express.static(clientDist));
 
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  app.all(/^(?:.*)$/, (req, res) => {
+    res.sendFile(path.join(clientDist, "index.html"));
   });
 }
+
 
 
 server.listen(PORT, () => {
