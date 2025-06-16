@@ -1,5 +1,5 @@
 import { useAuthStore } from "../store/useAuthStore";
-import { formatMemberDate, formatLoginDate } from '../lib/Time';
+import { formatMemberDate, formatLoginDate } from '../lib/time';
 import { Camera, Mail, User, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from 'react';

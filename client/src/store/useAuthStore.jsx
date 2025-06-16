@@ -15,7 +15,6 @@ export const useAuthStore = create((set, get) => ({
   onlineUsers: [],
   error: null,
   setError: (error) => set({ error }),
-  isUpdatingProfile: false,
   socket: null,
 
   checkAuth: async () => {
