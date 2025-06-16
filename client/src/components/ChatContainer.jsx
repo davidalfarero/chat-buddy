@@ -5,7 +5,7 @@ import InfoSidebar from "./InfoSidebar";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./MessageSkeleton";
 import { useAuthStore } from '../store/useAuthStore';
-import { formatMessageTime } from '../lib/Time';
+import { formatMessageTime } from '../lib/time';
 
 const ChatContainer = () => {
   const [showInfoSideBar, setShowInfoSideBar] = useState(false);
