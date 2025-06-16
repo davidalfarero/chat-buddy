@@ -1,4 +1,3 @@
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -8,6 +7,10 @@ import authRoutes from './routes/authRoute.js';
 import messageRoutes from './routes/messageRoute.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 const PORT = process.env.PORT || 5001;
