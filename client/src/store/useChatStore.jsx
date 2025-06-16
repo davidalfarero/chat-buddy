@@ -23,24 +23,35 @@ export const useChatStore = create((set, get) => ({
   },
 
   getMessages: async (userId) => {
+    if (!userId) {
+      console.warn("getMessages called with invalid userId");
+      return;
+    }
+
     set({ isMessagesLoading: true });
     try {
       const res = await axiosInstance.get(`/messages/${userId}`);
       set({ messages: res.data });
     } catch (error) {
-      console.error(error.response.data.message);
+      console.error(error?.response?.data?.message || error.message);
     } finally {
       set({ isMessagesLoading: false });
     }
   },
 
-  sendMessage: async (messageData) => {
+
+  ssendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
+    if (!selectedUser?._id) {
+      console.warn("sendMessage called without a selectedUser");
+      return;
+    }
+
     try {
       const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
       set({ messages: [...messages, res.data] });
     } catch (error) {
-      console.error(error.response.data.message);
+      console.error(error?.response?.data?.message || error.message);
     }
   },
 
