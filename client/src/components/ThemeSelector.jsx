@@ -1,5 +1,5 @@
 import { useThemeStore } from "../store/useThemeStore"; // adjust path as needed
-import { THEMES } from '../lib/themes';
+import { THEMES } from '../lib/THEMES.js';
 
 const ThemeSelector = () => {
   const { theme: activeTheme, setTheme } = useThemeStore();
