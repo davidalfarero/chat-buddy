@@ -9,7 +9,7 @@ import messageRoutes from './routes/messageRoute.js';
 import path from "path";
 
 dotenv.config();
-const PORT = process.env.PORT || "http://localhost:5001";
+const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
 app.use(cors(
