@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import { useState } from 'react';
-import { THEMES } from '../lib/themes';
+import { THEMES } from '../lib/THEMES';
 import { useChatStore } from "../store/useChatStore";
 import { useThemeStore } from "../store/useThemeStore"; // adjust path as needed
 
