@@ -9,6 +9,7 @@ import connectDB from "./lib/connectDB.js";
 import { app, server } from "./lib/socket.js";
 import authRoutes from "./routes/authRoute.js";
 import messageRoutes from "./routes/messageRoute.js";
+import fs from "fs";
 
 
 dotenv.config();
@@ -17,7 +18,6 @@ const PORT = process.env.PORT || 5001;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 const require = createRequire(import.meta.url);
 const cookieParser = require("cookie-parser");
@@ -51,10 +51,9 @@ if (process.env.NODE_ENV === "production") {
   const clientDist = path.join(__dirname, "..", "client", "dist");
   app.use(express.static(clientDist));
 
-  app.get("*", (_, res) => {
-    res.sendFile(path.join(clientDist, "index.html"));
+  app.get(/^\/(?!api).*/, (_, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
-
 }
 
 server.listen(PORT, () => {
