@@ -51,12 +51,11 @@ if (process.env.NODE_ENV === "production") {
   const clientDist = path.join(__dirname, "..", "client", "dist");
   app.use(express.static(clientDist));
 
-  app.get("/*", (_, res) => {
+  app.get("*", (_, res) => {
     res.sendFile(path.join(clientDist, "index.html"));
   });
 
 }
-
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

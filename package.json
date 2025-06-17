@@ -18,5 +18,8 @@
     "url": "https://github.com/davidalfarero/chat-app/issues"
   },
   "homepage": "https://github.com/davidalfarero/chat-app#readme",
-  "description": ""
+  "description": "",
+  "engines": {
+    "node": "18.x"
+  }
 }
