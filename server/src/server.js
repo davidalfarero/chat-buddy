@@ -1,9 +1,9 @@
-import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import express from "express";
+import { createRequire } from "module";
 import path from "path";
 import { fileURLToPath } from "url";
-import { createRequire } from "module";
 
 import connectDB from "./lib/connectDB.js";
 import { app, server } from "./lib/socket.js";
@@ -37,8 +37,7 @@ app.use("/api/messages", messageRoutes);
 
 
 if (process.env.NODE_ENV === "production") {
-  const clientDist = path.join(__dirname, "..", "client", "dist");
-  app.use(express.static(clientDist));
+  app.use(express.static(path.join(__dirname, "../client/dist")));
 
   app.get(/^\/(?!api).*/, (_, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
