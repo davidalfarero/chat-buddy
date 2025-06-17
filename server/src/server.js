@@ -24,7 +24,7 @@ const cookieParser = require("cookie-parser");
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://chat-app-pu7n.onrender.com",
+  "https://chat-app-ke5h.onrender.com",
 ];
 
 // Middlewares
