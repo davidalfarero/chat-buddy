@@ -9,7 +9,6 @@ import connectDB from "./lib/connectDB.js";
 import { app, server } from "./lib/socket.js";
 import authRoutes from "./routes/authRoute.js";
 import messageRoutes from "./routes/messageRoute.js";
-import fs from "fs";
 
 
 dotenv.config();
