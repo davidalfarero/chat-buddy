@@ -149,10 +149,10 @@ This project is inspired by learning from open-source communities, and real-worl
 
 ## 🧠 Author
 
-**David [@davidalfarero](https://github.com/davidalfarero)**
+**David [@davidalfarero](https://github.com/davidalfarero)**  
 Frontend & Backend Developer
 
-Portfolio: [yourportfolio.com](https://yourportfolio.com)
+Portfolio: [myportfolio.com](https://react-portfolio-nine-rust.vercel.app/)  
 Email: [david.alfarero@gmail.com](mailto:david.alfarero@gmail.com)
 
 ---
